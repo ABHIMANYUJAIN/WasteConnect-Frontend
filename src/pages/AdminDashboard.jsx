@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 function AdminDashboard() {
   const [stats, setStats] = useState(null);
   const [leaderboard, setLeaderboard] = useState([]);
+  const [analytics, setAnalytics] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +42,19 @@ function AdminDashboard() {
           leaderboardRes.data.leaderboard
         );
 
+        const analyticsRes = await api.get(
+          "/admin/waste-analytics",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setAnalytics(
+          analyticsRes.data.analytics
+        );
+
       } catch (error) {
         console.error(error);
       }
@@ -41,6 +62,15 @@ function AdminDashboard() {
 
     fetchData();
   }, []);
+
+  const COLORS = [
+    "#22c55e",
+    "#3b82f6",
+    "#f59e0b",
+    "#ef4444",
+    "#8b5cf6",
+    "#06b6d4",
+  ];
 
   if (!stats) {
     return (
@@ -155,6 +185,52 @@ function AdminDashboard() {
                 </div>
               )
             )}
+          </div>
+        </div>
+      </div>
+
+      {/* Waste Analytics Chart */}
+      <div className="p-8 pt-0">
+        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
+          <h2 className="text-2xl font-bold mb-6 text-green-400">
+            📊 Waste Distribution
+          </h2>
+
+          <div
+            style={{
+              width: "100%",
+              height: 350,
+            }}
+          >
+            <ResponsiveContainer>
+              <PieChart>
+                <Pie
+                  data={analytics}
+                  dataKey="count"
+                  nameKey="_id"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={120}
+                  label
+                >
+                  {analytics.map(
+                    (entry, index) => (
+                      <Cell
+                        key={index}
+                        fill={
+                          COLORS[
+                            index %
+                              COLORS.length
+                          ]
+                        }
+                      />
+                    )
+                  )}
+                </Pie>
+
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>
