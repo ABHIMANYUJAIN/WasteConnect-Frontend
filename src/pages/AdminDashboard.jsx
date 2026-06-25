@@ -101,140 +101,167 @@ function AdminDashboard() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-8">
-        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
-          <h2 className="text-slate-400">
-            Total Requests
-          </h2>
 
-          <p className="text-4xl font-bold mt-2">
-            {stats.totalRequests}
-          </p>
-        </div>
+  <div className="bg-gradient-to-r from-green-600 to-green-500 rounded-2xl p-6 shadow-lg hover:scale-105 transition">
+    <p className="text-sm opacity-80">
+      📦 Total Requests
+    </p>
 
-        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
-          <h2 className="text-slate-400">
-            Collectors
-          </h2>
+    <h2 className="text-5xl font-bold mt-3">
+      {stats.totalRequests}
+    </h2>
+  </div>
 
-          <p className="text-4xl font-bold mt-2">
-            {stats.totalCollectors}
-          </p>
-        </div>
+  <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-2xl p-6 shadow-lg hover:scale-105 transition">
+    <p className="text-sm opacity-80">
+      🚚 Collectors
+    </p>
 
-        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
-          <h2 className="text-slate-400">
-            Completed
-          </h2>
+    <h2 className="text-5xl font-bold mt-3">
+      {stats.totalCollectors}
+    </h2>
+  </div>
 
-          <p className="text-4xl font-bold mt-2">
-            {stats.completedRequests}
-          </p>
-        </div>
+  <div className="bg-gradient-to-r from-purple-600 to-purple-500 rounded-2xl p-6 shadow-lg hover:scale-105 transition">
+    <p className="text-sm opacity-80">
+      ✅ Completed
+    </p>
 
-        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
-          <h2 className="text-slate-400">
-            Users
-          </h2>
+    <h2 className="text-5xl font-bold mt-3">
+      {stats.completedRequests}
+    </h2>
+  </div>
 
-          <p className="text-4xl font-bold text-green-400 mt-2">
-            {stats.totalUsers}
-          </p>
-        </div>
-      </div>
+  <div className="bg-gradient-to-r from-orange-600 to-orange-500 rounded-2xl p-6 shadow-lg hover:scale-105 transition">
+    <p className="text-sm opacity-80">
+      👥 Users
+    </p>
+
+    <h2 className="text-5xl font-bold mt-3">
+      {stats.totalUsers}
+    </h2>
+  </div>
+
+</div>
 
       {/* Leaderboard */}
-      <div className="p-8">
-        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
-          <h2 className="text-2xl font-bold mb-6 text-green-400">
-            🏆 Collector Leaderboard
-          </h2>
+      <div className="grid md:grid-cols-2 gap-8 p-8 pt-0">
 
-          <div className="space-y-4">
-            {leaderboard.map(
-              (collector, index) => (
-                <div
-                  key={collector.email}
-                  className="flex justify-between items-center bg-slate-800 p-4 rounded-xl"
-                >
-                  <div>
-                    <p className="font-semibold">
-                      #{index + 1}{" "}
-                      {collector.name}
-                    </p>
+  {/* Leaderboard */}
 
-                    <p className="text-slate-400 text-sm">
-                      {collector.email}
-                    </p>
-                  </div>
+  <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
 
-                  <div className="text-right">
-                    <p>
-                      Completed:{" "}
-                      {collector.completed}
-                    </p>
+    <h2 className="text-2xl font-bold mb-6 text-green-400">
+      🏆 Collector Leaderboard
+    </h2>
 
-                    <p>
-                      Assigned:{" "}
-                      {collector.assigned}
-                    </p>
+    <div className="space-y-4">
 
-                    <p className="text-green-400">
-                      {collector.completionRate}%
-                    </p>
-                  </div>
-                </div>
-              )
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Waste Analytics Chart */}
-      <div className="p-8 pt-0">
-        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
-          <h2 className="text-2xl font-bold mb-6 text-green-400">
-            📊 Waste Distribution
-          </h2>
+      {leaderboard.map(
+        (collector, index) => (
 
           <div
-            style={{
-              width: "100%",
-              height: 350,
-            }}
+            key={collector.email}
+            className="bg-slate-800 p-5 rounded-xl hover:bg-slate-700 transition"
           >
-            <ResponsiveContainer>
-              <PieChart>
-                <Pie
-                  data={analytics}
-                  dataKey="count"
-                  nameKey="_id"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={120}
-                  label
-                >
-                  {analytics.map(
-                    (entry, index) => (
-                      <Cell
-                        key={index}
-                        fill={
-                          COLORS[
-                            index %
-                              COLORS.length
-                          ]
-                        }
-                      />
-                    )
-                  )}
-                </Pie>
 
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="flex justify-between">
+
+              <div>
+                <p className="font-bold text-lg">
+                  #{index + 1} {collector.name}
+                </p>
+
+                <p className="text-slate-400 text-sm">
+                  {collector.email}
+                </p>
+              </div>
+
+              <div className="text-right">
+                <p>
+                  ✅ {collector.completed}
+                </p>
+
+                <p>
+                  📦 {collector.assigned}
+                </p>
+
+                <p className="text-green-400 font-semibold">
+                  {collector.completionRate}%
+                </p>
+              </div>
+
+            </div>
+
           </div>
-        </div>
-      </div>
+
+        )
+      )}
+
     </div>
+
+  </div>
+
+
+  {/* Chart */}
+
+  <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
+
+    <h2 className="text-2xl font-bold mb-6 text-green-400">
+      📊 Waste Distribution
+    </h2>
+
+    <div
+      style={{
+        width: "100%",
+        height: 350,
+      }}
+    >
+
+      <ResponsiveContainer>
+
+        <PieChart>
+
+          <Pie
+            data={analytics}
+            dataKey="count"
+            nameKey="_id"
+            cx="50%"
+            cy="50%"
+            outerRadius={120}
+            label={({ name }) => name}
+          >
+
+            {analytics.map(
+              (entry, index) => (
+
+                <Cell
+                  key={index}
+                  fill={
+                    COLORS[
+                      index % COLORS.length
+                    ]
+                  }
+                />
+
+              )
+            )}
+
+          </Pie>
+
+          <Tooltip />
+
+        </PieChart>
+
+      </ResponsiveContainer>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
   );
 }
 
