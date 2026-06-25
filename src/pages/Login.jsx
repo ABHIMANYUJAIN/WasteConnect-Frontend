@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
@@ -7,6 +8,7 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,13 +29,13 @@ function Login() {
       const role = res.data.user.role;
 
 if (role === "admin") {
-  window.location.href = "/admin";
+  navigate("/admin");
 }
 else if (role === "collector") {
-  window.location.href = "/collector";
+  navigate("/collector");
 }
 else {
-  window.location.href = "/user";
+  navigate("/user");
 }
     } catch (error) {
       alert(
